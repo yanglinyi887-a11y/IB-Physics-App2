@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Key, Zap, Loader2, CheckCircle2, XCircle } from "lucide-react"
 
 export default function RelayPage() {
-  const [relayUrl, setRelayUrl] = useState("https://api.worldbase.ai/v1")
+  const [relayUrl, setRelayUrl] = useState("http://api.worldbase.ai/v1")
   const [relayKey, setRelayKey] = useState("")
   const [testing, setTesting] = useState(false)
   const [testResult, setTestResult] = useState<{ ok: boolean; msg: string } | null>(null)

@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
     const { baseUrl, key } = await req.json()
     if (!key) return NextResponse.json({ error: "API key is required" }, { status: 400 })
 
-    const url = (baseUrl || "https://api.worldbase.ai/v1").replace(/\/$/, "") + "/chat/completions"
+    const url = (baseUrl || "http://api.worldbase.ai/v1").replace(/\/$/, "") + "/chat/completions"
     const res = await fetch(url, {
       method: "POST",
       headers: {
