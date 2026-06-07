@@ -2,7 +2,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { Home, Lightbulb, MessageCircle, FileSearch, BarChart3, BookOpen, Settings, Edit3, TrendingUp, Crown } from "lucide-react"
+import { Home, Lightbulb, MessageCircle, FileSearch, BarChart3, BookOpen, Settings, Edit3, TrendingUp, Crown, Key } from "lucide-react"
 
 const links = [
   { href: "/dashboard", label: "Home", icon: Home },
@@ -14,6 +14,7 @@ const links = [
   { href: "/dashboard/exemplars", label: "Exemplar Library", icon: BookOpen },
   { href: "/dashboard/progress", label: "Progress", icon: TrendingUp },
   { href: "/dashboard/premium", label: "Premium", icon: Crown },
+  { href: "/dashboard/relay", label: "Relay Station", icon: Key },
 ]
 
 export function DashboardNav() {

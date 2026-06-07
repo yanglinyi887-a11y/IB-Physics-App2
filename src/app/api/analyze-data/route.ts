@@ -1,4 +1,4 @@
-import { openai } from "@/lib/ai"
+import { getModel } from "@/lib/ai"
 import { generateText } from "ai"
 import { checkAuth, checkRateLimit } from "@/lib/server/guard"
 
@@ -11,10 +11,8 @@ export async function POST(req: Request) {
     return Response.json({ error: "Quota exceeded. Upgrade to Pro for more." }, { status: 429 })
   }
 
-  const { csv, xLabel, yLabel } = await req.json()
-  if (!csv || csv.length < 10) {
-    return Response.json({ error: "Please provide CSV data" }, { status: 400 })
-  }
+  const { csv, xLabel, yLabel, model = "deepseek-chat" } = await req.json()
+  if (!csv || csv.length < 10) return Response.json({ error: "Please provide CSV data" }, { status: 400 })
 
   const lines: string[] = csv.trim().split("\n")
   const headers: string[] = lines[0].split(",").map((h: string) => h.trim())
