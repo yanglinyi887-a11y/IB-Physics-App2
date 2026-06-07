@@ -124,11 +124,15 @@ export default function PremiumPage() {
           <CardDescription>Scan the QR code to pay. Send a screenshot + your email to get upgraded within 24 hours.</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center space-y-4">
-          <div className="w-48 h-48 border-2 border-dashed border-zinc-700 rounded-xl flex items-center justify-center bg-zinc-900">
+          <img
+              src="/qr.png"
+              alt="WeChat Pay QR Code"
+              className="w-48 h-48 rounded-xl border border-zinc-700 object-contain bg-white p-1"
+            />
+          <div className="w-48 h-48 border-2 border-dashed border-zinc-700 rounded-xl flex items-center justify-center bg-zinc-900 hidden">
             <div className="text-center">
               <QrCode className="w-12 h-12 text-zinc-600 mx-auto mb-1" />
-              <p className="text-xs text-zinc-500">Replace with your<br />WeChat QR code</p>
-              <p className="text-xs text-zinc-600 mt-1">public/qr.png</p>
+              <p className="text-xs text-zinc-500">Add qr.png to public/</p>
             </div>
           </div>
           <div className="text-sm text-zinc-400 text-center space-y-1">
