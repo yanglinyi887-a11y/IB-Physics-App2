@@ -2,21 +2,20 @@ import { createOpenAI } from "@ai-sdk/openai"
 import type { ModelId } from "@/lib/models"
 import { getModelConfig } from "@/lib/models"
 
-// Provider configurations - all via OpenAI-compatible relay endpoints
-// Add keys in Vercel env: DEEPSEEK_KEY, OPENAI_KEY, GEMINI_KEY, ANTHROPIC_KEY
+// Universal Relay Mode: set RELAY_BASE_URL + RELAY_KEY in env
+// Points to a single relay station (api2d, openai-hk, etc.)
+// All 9 models route through this one endpoint
+const relayURL = process.env.RELAY_BASE_URL
+const relayKey = process.env.RELAY_KEY
 
-const providers: Record<string, ReturnType<typeof createOpenAI> | null> = {}
-
-function getProvider(name: string, envKey: string, baseURL: string) {
-  if (providers[name]) return providers[name]
-  const key = process.env[envKey]
-  if (!key) return null
-  providers[name] = createOpenAI({ apiKey: key, baseURL } as any)
-  return providers[name]
+let relayClient: ReturnType<typeof createOpenAI> | null = null
+if (relayURL && relayKey) {
+  relayClient = createOpenAI({ apiKey: relayKey, baseURL: relayURL } as any)
 }
 
-// Maps model provider to env var + base URL
-// For relay stations like api2d, all models use the same base URL
+// Individual provider keys (fallback if no relay)
+const providerClients: Record<string, ReturnType<typeof createOpenAI> | null> = {}
+
 const PROVIDER_MAP: Record<string, { envKey: string; baseURL: string }> = {
   DeepSeek:   { envKey: "OPENAI_API_KEY", baseURL: "https://api.deepseek.com/v1" },
   OpenAI:     { envKey: "OPENAI_KEY2",    baseURL: "https://api.openai.com/v1" },
@@ -24,23 +23,28 @@ const PROVIDER_MAP: Record<string, { envKey: string; baseURL: string }> = {
   Anthropic:  { envKey: "ANTHROPIC_KEY",  baseURL: "https://api.anthropic.com/v1" },
 }
 
-export function getModel(modelId: ModelId) {
-  const config = getModelConfig(modelId)
-  const pmap = PROVIDER_MAP[config.provider]
-  if (!pmap) return getFallback()
+function getProviderClient(provider: string) {
+  // Universal relay takes priority
+  if (relayClient) return relayClient
 
-  const client = getProvider(config.provider, pmap.envKey, pmap.baseURL)
-  if (!client) {
-    console.warn(`No key for ${config.provider}, falling back to DeepSeek`)
-    return getFallback()
-  }
-
-  return client(modelId)
+  // Check individual provider
+  if (providerClients[provider]) return providerClients[provider]
+  const pmap = PROVIDER_MAP[provider]
+  if (!pmap) return null
+  const key = process.env[pmap.envKey]
+  if (!key) return null
+  providerClients[provider] = createOpenAI({ apiKey: key, baseURL: pmap.baseURL } as any)
+  return providerClients[provider]
 }
 
-function getFallback() {
-  return createOpenAI({
-    apiKey: process.env.OPENAI_API_KEY!,
-    baseURL: "https://api.deepseek.com/v1",
-  } as any)("deepseek-chat")
+export function getModel(modelId: ModelId) {
+  const config = getModelConfig(modelId)
+  const client = getProviderClient(config.provider)
+  if (!client) {
+    // Fallback chain: DeepSeek -> error
+    const ds = getProviderClient("DeepSeek")
+    if (ds) return ds("deepseek-chat")
+    throw new Error("No API key configured. Add keys in Relay Station or set RELAY_KEY env.")
+  }
+  return client(modelId)
 }
