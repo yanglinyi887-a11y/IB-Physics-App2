@@ -13,16 +13,16 @@ const PLANS = [
     price: "0",
     icon: Zap,
     color: "zinc",
-    features: ["AI Coach 3��/Сʱ", "IA Editor", "Data Analysis", "Topic Generator", "Exemplar Library"],
-    cta: "Current Plan",
+    features: ["AI Coach 3?/??", "IA Editor", "Data Analysis", "Topic Generator", "Exemplar Library"],
+    cta: "????",
   },
   {
     name: "Pro",
     price: "59",
     icon: Sparkles,
     color: "emerald",
-    features: ["ȫ�� 9 �� AI ģ��", "AI Coach 50��/Сʱ", "Draft Review ����", "Data Analysis", "Exemplar ȫ����"],
-    cta: "ɨ������ Pro",
+    features: ["?? 8 ? AI ??", "AI Coach 50?/??", "Draft Review ??", "Data Analysis", "Exemplar ????"],
+    cta: "???? Pro",
     popular: true,
   },
   {
@@ -30,8 +30,8 @@ const PLANS = [
     price: "128",
     icon: Crown,
     color: "amber",
-    features: ["Pro ȫ������", "AI Coach 200��/Сʱ", "Devil �����������", "Version Compare", "Weakness Analysis"],
-    cta: "ɨ������ Premium",
+    features: ["Pro ????", "AI Coach 200?/??", "Devil ????", "Version Compare", "Weakness Analysis"],
+    cta: "???? Premium",
   },
 ]
 
@@ -69,8 +69,8 @@ export default function PremiumPage() {
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Pricing Section */}
       <div>
-        <h1 className="text-2xl font-bold">Upgrade Your Account</h1>
-        <p className="text-zinc-400 mt-1">Get unlimited AI coaching and advanced review tools.</p>
+        <h1 className="text-2xl font-bold">????</h1>
+        <p className="text-zinc-400 mt-1">???? AI ??????????</p>
       </div>
 
       <div className="grid sm:grid-cols-3 gap-4">
@@ -81,7 +81,7 @@ export default function PremiumPage() {
               plan.popular ? "ring-1 ring-emerald-500/50" : ""
             }`}>
               {plan.popular && (
-                <Badge className="absolute -top-2 left-1/2 -translate-x-1/2 bg-emerald-500 text-black text-xs">Most Popular</Badge>
+                <Badge className="absolute -top-2 left-1/2 -translate-x-1/2 bg-emerald-500 text-black text-xs">??</Badge>
               )}
               <CardHeader className="text-center pb-2">
                 <Icon className={`w-8 h-8 mx-auto mb-2 ${
@@ -90,8 +90,8 @@ export default function PremiumPage() {
                 }`} />
                 <CardTitle className="text-lg">{plan.name}</CardTitle>
                 <div className="mt-2">
-                  <span className="text-3xl font-bold">¥{plan.price}</span>
-                  {plan.price !== "0" && <span className="text-zinc-400 text-sm">/��</span>}
+                  <span className="text-3xl font-bold">?{plan.price}</span>
+                  {plan.price !== "0" && <span className="text-zinc-400 text-sm">/?</span>}
                 </div>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -118,68 +118,67 @@ export default function PremiumPage() {
 
       {/* Payment Method */}
       <Card className="border-zinc-800 bg-zinc-900/50">
-        <CardHeader className="text-center">
-          <QrCode className="w-10 h-10 mx-auto text-emerald-400 mb-2" />
-          <CardTitle>WeChat Pay / Alipay</CardTitle>
-          <CardDescription>Scan the QR code to pay. Send a screenshot + your email to get upgraded within 24 hours.</CardDescription>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <QrCode className="w-5 h-5 text-emerald-400" />
+            ??????
+          </CardTitle>
+          <CardDescription>????????? yly20-17????????</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center space-y-4">
-          <img
-              src="/qr.png"
-              alt="WeChat Pay QR Code"
-              className="w-48 h-48 rounded-xl border border-zinc-700 object-contain bg-white p-1"
-            />
-          <div className="w-48 h-48 border-2 border-dashed border-zinc-700 rounded-xl flex items-center justify-center bg-zinc-900 hidden">
-            <div className="text-center">
-              <QrCode className="w-12 h-12 text-zinc-600 mx-auto mb-1" />
-              <p className="text-xs text-zinc-500">Add qr.png to public/</p>
-            </div>
+          <div className="w-48 h-48 bg-white rounded-xl p-2 flex items-center justify-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/qr.png" alt="?????" className="w-full h-full object-contain" />
           </div>
-          <div className="text-sm text-zinc-400 text-center space-y-1">
-            <p>1. Scan QR code and pay <strong className="text-emerald-400">¥59 (Pro)</strong> or <strong className="text-amber-400">¥128 (Premium)</strong></p>
-            <p>2. Add WeChat: <code className="text-zinc-300 bg-zinc-800 px-2 py-0.5 rounded">yly20-17</code></p>
-            <p>3. Send your <strong>registered email</strong> and chosen plan</p>
-            <p>Your account will be upgraded within a few hours.</p>
+          <div className="text-center space-y-1">
+            <p className="text-sm text-zinc-300 font-medium">??????</p>
+            <ol className="text-sm text-zinc-400 space-y-1">
+              <li>1. ??????</li>
+              <li>2. ???? <span className="text-emerald-400 font-medium">yly20-17</span></li>
+              <li>3. ????????</li>
+              <li>4. ??????????</li>
+            </ol>
           </div>
+          <p className="text-xs text-zinc-500">
+            ??? 1 ?????????????? yly20-17?
+          </p>
         </CardContent>
       </Card>
 
-      {/* Tools Section */}
-      <div className="pt-4">
-        <h2 className="text-xl font-bold mb-4">Premium Tools</h2>
-        <p className="text-zinc-400 -mt-3 mb-6">Available to Premium users. Upgrade above to unlock.</p>
-      </div>
-
+      {/* Premium Tools */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="w-full bg-zinc-900 border border-zinc-800">
-          <TabsTrigger value="devil" className="flex-1"><Skull className="w-4 h-4 mr-1" /> Devil Examiner</TabsTrigger>
-          <TabsTrigger value="compare" className="flex-1"><GitCompare className="w-4 h-4 mr-1" /> Version Compare</TabsTrigger>
-          <TabsTrigger value="weakness" className="flex-1"><TrendingUp className="w-4 h-4 mr-1" /> Weakness Analysis</TabsTrigger>
+          <TabsTrigger value="devil" className="flex-1"><Skull className="w-4 h-4 mr-1" /> Devil ????</TabsTrigger>
+          <TabsTrigger value="compare" className="flex-1"><GitCompare className="w-4 h-4 mr-1" /> ????</TabsTrigger>
+          <TabsTrigger value="weakness" className="flex-1"><TrendingUp className="w-4 h-4 mr-1" /> ????</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="devil" className="space-y-4 mt-4">
+        <TabsContent value="devil" className="mt-4">
           <Card className="border-zinc-800 bg-zinc-900/50">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Skull className="w-5 h-5 text-red-400" /> Devil Examiner</CardTitle>
-              <CardDescription>3-round deep review. AI plays a ruthless IB examiner and finds every weakness.</CardDescription>
+              <CardTitle className="flex items-center gap-2"><Skull className="w-5 h-5 text-red-400" /> Devil Examiner Deep Review</CardTitle>
+              <CardDescription>
+                AI ?????? IB ????? 3 ??????????????????
+                <br /><Badge variant="outline" className="mt-2 text-amber-400 border-amber-500/30">Premium ??</Badge>
+              </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3">
               <Textarea
                 value={content}
                 onChange={e => setContent(e.target.value)}
-                placeholder="Paste your IA draft here (min 100 characters)..."
+                placeholder="???? IA ????? 100 ??..."
                 className="min-h-[160px] bg-zinc-950 border-zinc-700 text-sm"
               />
               <Button onClick={runDevilReview} disabled={loading || content.length < 100} className="bg-red-500 hover:bg-red-400 text-white">
                 {loading ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Skull className="w-4 h-4 mr-1" />}
-                {loading ? "Analyzing..." : "Run Devil Review"}
+                {loading ? "???..." : "?? Devil ??"}
               </Button>
               {error && <p className="text-red-400 text-sm">{error}</p>}
               {rounds.length > 0 && (
                 <div className="space-y-3 mt-4">
                   {rounds.map((r, i) => (
                     <Card key={i} className="border-zinc-800 bg-zinc-950">
-                      <CardHeader className="pb-2"><CardTitle className="text-sm">Round {i + 1}</CardTitle></CardHeader>
+                      <CardHeader className="pb-2"><CardTitle className="text-sm">? {i + 1} ?</CardTitle></CardHeader>
                       <CardContent><p className="text-sm text-zinc-300 whitespace-pre-wrap">{r}</p></CardContent>
                     </Card>
                   ))}
@@ -192,8 +191,8 @@ export default function PremiumPage() {
         <TabsContent value="compare" className="mt-4">
           <Card className="border-zinc-800 bg-zinc-900/50">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><GitCompare className="w-5 h-5 text-blue-400" /> Version Compare</CardTitle>
-              <CardDescription>Track your IA improvements across drafts.</CardDescription>
+              <CardTitle className="flex items-center gap-2"><GitCompare className="w-5 h-5 text-blue-400" /> ????</CardTitle>
+              <CardDescription>???? IA ???????????</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -205,10 +204,10 @@ export default function PremiumPage() {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-sm text-zinc-400">{v.date}</span>
-                        <Badge className="bg-emerald-500/10 text-emerald-400 text-xs">Score: {v.score}/24</Badge>
+                        <Badge className="bg-emerald-500/10 text-emerald-400 text-xs">??: {v.score}/24</Badge>
                       </div>
                       <ul className="text-xs text-zinc-400 space-y-0.5">
-                        {v.changes.map((c, i) => <li key={i}>• {c}</li>)}
+                        {v.changes.map((c, i) => <li key={i}>- {c}</li>)}
                       </ul>
                     </div>
                     <div className="text-right">
@@ -217,7 +216,7 @@ export default function PremiumPage() {
                     </div>
                   </div>
                 ))}
-                <p className="text-xs text-zinc-500 text-center">This is a demo. Your actual versions will appear here.</p>
+                <p className="text-xs text-zinc-500 text-center">????????????????????</p>
               </div>
             </CardContent>
           </Card>
@@ -226,28 +225,28 @@ export default function PremiumPage() {
         <TabsContent value="weakness" className="mt-4">
           <Card className="border-zinc-800 bg-zinc-900/50">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><TrendingUp className="w-5 h-5 text-purple-400" /> Weakness Analysis</CardTitle>
-              <CardDescription>AI identifies your weakest areas across all IA criteria and suggests targeted improvements.</CardDescription>
+              <CardTitle className="flex items-center gap-2"><TrendingUp className="w-5 h-5 text-purple-400" /> ????</CardTitle>
+              <CardDescription>AI ????? IA ???????????????????</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid sm:grid-cols-5 gap-3">
                 {[
-                  { label: "Personal Engagement", score: "1/2", color: "red" },
-                  { label: "Exploration", score: "4/6", color: "amber" },
-                  { label: "Analysis", score: "5/6", color: "emerald" },
-                  { label: "Evaluation", score: "3/6", color: "red" },
-                  { label: "Communication", score: "3/4", color: "amber" },
+                  { label: "????", score: "1/2", color: "red" },
+                  { label: "??", score: "4/6", color: "amber" },
+                  { label: "??", score: "5/6", color: "emerald" },
+                  { label: "??", score: "3/6", color: "red" },
+                  { label: "??", score: "3/4", color: "amber" },
                 ].map(c => (
                   <Card key={c.label} className="border-zinc-800 bg-zinc-950 text-center p-4">
                     <p className="text-xs text-zinc-400 mb-1">{c.label}</p>
                     <p className={`text-lg font-bold ${
                       c.color === "red" ? "text-red-400" : c.color === "amber" ? "text-amber-400" : "text-emerald-400"
                     }`}>{c.score}</p>
-                    <p className="text-[10px] text-zinc-500 mt-1">Demo data</p>
+                    <p className="text-[10px] text-zinc-500 mt-1">????</p>
                   </Card>
                 ))}
               </div>
-              <p className="text-xs text-zinc-500 mt-4 text-center">This is demo data. Run Devil Review to get real analysis.</p>
+              <p className="text-xs text-zinc-500 mt-4 text-center">????????? Devil ??????????</p>
             </CardContent>
           </Card>
         </TabsContent>
