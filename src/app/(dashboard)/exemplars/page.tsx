@@ -20,7 +20,7 @@ export default function ExemplarsPage() {
       </div>
       <div className="grid sm:grid-cols-2 gap-4">
         {sampleExemplars.map(e => (
-          <Link key={e.id} href={`/dashboard/exemplars/${e.id}`}>
+          <Link key={e.id} href={`/exemplars/${e.id}`}>
             <Card className="border-zinc-800 bg-zinc-900/50 hover:border-zinc-700 transition-colors cursor-pointer h-full">
               <CardHeader>
                 <div className="flex items-center justify-between mb-2">

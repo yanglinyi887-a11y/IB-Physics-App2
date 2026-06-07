@@ -87,7 +87,7 @@ export default function ExemplarDetailPage({ params }: { params: Promise<{ id: s
     return (
       <div className="max-w-3xl mx-auto py-20 text-center">
         <p className="text-zinc-400">Exemplar not found.</p>
-        <Link href="/dashboard/exemplars"><Button variant="link" className="mt-2">Back to library</Button></Link>
+        <Link href="/exemplars"><Button variant="link" className="mt-2">Back to library</Button></Link>
       </div>
     )
   }
@@ -99,7 +99,7 @@ export default function ExemplarDetailPage({ params }: { params: Promise<{ id: s
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Link href="/dashboard/exemplars">
+          <Link href="/exemplars">
             <Button variant="ghost" size="sm"><ArrowLeft className="w-4 h-4 mr-1" /> Library</Button>
           </Link>
           <div>

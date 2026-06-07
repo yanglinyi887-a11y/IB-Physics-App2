@@ -14,7 +14,7 @@ export function DashboardHeader({ user }: Props) {
   return (
     <header className="fixed top-0 w-full z-50 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-sm">
       <div className="h-14 px-6 flex items-center justify-between">
-        <Link href="/dashboard" className="font-bold text-lg tracking-tight">Physics IA</Link>
+        <Link href="" className="font-bold text-lg tracking-tight">Physics IA</Link>
         <div className="flex items-center gap-3">
           <Badge variant="outline" className="text-emerald-400 border-emerald-500/30">Free</Badge>
           <DropdownMenu>
