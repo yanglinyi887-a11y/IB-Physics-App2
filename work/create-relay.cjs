@@ -1,4 +1,6 @@
-"use client"
+const fs = require("fs");
+
+const content = `"use client"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -106,9 +108,9 @@ export default function RelayPage() {
               </Button>
 
               {testResult && (
-                <div className={`flex items-center gap-2 p-3 rounded-lg text-sm ${
+                <div className={\`flex items-center gap-2 p-3 rounded-lg text-sm \${
                   testResult.ok ? "bg-emerald-500/10 border border-emerald-500/30 text-emerald-400" : "bg-red-500/10 border border-red-500/30 text-red-400"
-                }`}>
+                }\`}>
                   {testResult.ok ? <CheckCircle2 className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
                   {testResult.msg}
                 </div>
@@ -165,3 +167,7 @@ export default function RelayPage() {
     </div>
   )
 }
+`;
+
+fs.writeFileSync("src/app/dashboard/relay/page.tsx", content, "utf8");
+console.log("done");
