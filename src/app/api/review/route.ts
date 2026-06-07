@@ -23,7 +23,7 @@ export async function POST(req: Request) {
     return Response.json({ error: "Quota exceeded. Upgrade to Pro for more." }, { status: 429 })
   }
 
-  const { content, model = "deepseek-chat" } = await req.json()
+  const { content, model = "gpt-5.4-mini" } = await req.json()
   if (!content || content.length < 50) return Response.json({ error: "Draft too short" }, { status: 400 })
 
   const result = await generateText({

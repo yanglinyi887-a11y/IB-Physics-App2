@@ -8,17 +8,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Key, Zap, Cpu, ExternalLink, CheckCircle2, XCircle, Loader2 } from "lucide-react"
 
 const ALL_MODELS = [
-  { id: "deepseek-chat", name: "DeepSeek-V3", provider: "DeepSeek", desc: "Fast, accurate. Best for dialogue." },
-  { id: "deepseek-reasoner", name: "DeepSeek-R1", provider: "DeepSeek", desc: "Deep reasoning. Complex analysis." },
-  { id: "gemini-2.0-flash", name: "Gemini 2.0 Flash", provider: "Google", desc: "Fast model for quick tasks." },
-  { id: "gemini-2.5-pro", name: "Gemini 2.5 Pro", provider: "Google", desc: "Long context, deep reasoning." },
-  { id: "claude-3.5-haiku", name: "Claude 3.5 Haiku", provider: "Anthropic", desc: "Crisp, concise responses." },
-  { id: "claude-3.5-sonnet", name: "Claude 3.5 Sonnet", provider: "Anthropic", desc: "Best all-around for writing." },
-  { id: "claude-4-opus", name: "Claude 4 Opus", provider: "Anthropic", desc: "Maximum intelligence." },
-  { id: "gpt-4o-mini", name: "GPT-4o Mini", provider: "OpenAI", desc: "Fast all-rounder." },
-  { id: "gpt-4o", name: "GPT-4o", provider: "OpenAI", desc: "Max quality analysis." },
+  { id: "gpt-5.4-mini",              name: "GPT-5.4 Mini",        provider: "worldbase", desc: "Fast, cheap. Best for simple tasks." },
+  { id: "gpt-5.4",                   name: "GPT-5.4",             provider: "worldbase", desc: "Balanced. Great all-rounder." },
+  { id: "gpt-5.5",                   name: "GPT-5.5",             provider: "worldbase", desc: "Flagship. Max quality analysis." },
+  { id: "claude-haiku-4-5-20251001", name: "Claude Haiku 4.5",    provider: "worldbase", desc: "Anthropic fast. Crisp." },
+  { id: "claude-sonnet-4-6",         name: "Claude Sonnet 4.6",   provider: "worldbase", desc: "Anthropic balanced." },
+  { id: "claude-opus-4-6",           name: "Claude Opus 4.6",     provider: "worldbase", desc: "Anthropic deep reasoning." },
+  { id: "claude-opus-4-7",           name: "Claude Opus 4.7",     provider: "worldbase", desc: "Anthropic max intelligence." },
+  { id: "claude-opus-4-8",           name: "Claude Opus 4.8",     provider: "worldbase", desc: "Anthropic best of the best." },
 ]
-
 export default function RelayPage() {
   const [relayUrl, setRelayUrl] = useState("https://api.worldbase.ai/v1")
   const [relayKey, setRelayKey] = useState("")

@@ -30,7 +30,7 @@ export default function ReviewPage() {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<ReviewResult | null>(null)
   const [error, setError] = useState("")
-  const [model, setModel] = useState<ModelId>("deepseek-chat")
+  const [model, setModel] = useState<ModelId>("gpt-5.4-mini")
 
   const handleReview = async () => {
     if (!content.trim() || loading) return

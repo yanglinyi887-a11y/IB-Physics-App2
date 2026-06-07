@@ -19,7 +19,7 @@ export async function POST(req: Request) {
     return Response.json({ error: "Quota exceeded. Upgrade to Pro for more." }, { status: 429 })
   }
 
-  const { messages, model = "deepseek-chat" } = await req.json()
+  const { messages, model = "gpt-5.4-mini" } = await req.json()
   const result = streamText({
     model: getModel(model),
     system: SYSTEM_PROMPT,

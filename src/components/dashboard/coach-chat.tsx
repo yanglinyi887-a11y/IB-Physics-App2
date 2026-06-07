@@ -19,7 +19,7 @@ export function CoachChat() {
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE])
   const [input, setInput] = useState("")
   const [loading, setLoading] = useState(false)
-  const [model, setModel] = useState<ModelId>("deepseek-chat")
+  const [model, setModel] = useState<ModelId>("gpt-5.4-mini")
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }) }, [messages])
