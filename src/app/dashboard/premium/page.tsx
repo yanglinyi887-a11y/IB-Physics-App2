@@ -137,7 +137,7 @@ export default function PremiumPage() {
           </div>
           <div className="text-sm text-zinc-400 text-center space-y-1">
             <p>1. Scan QR code and pay <strong className="text-emerald-400">¥59 (Pro)</strong> or <strong className="text-amber-400">¥128 (Premium)</strong></p>
-            <p>2. Add WeChat: <code className="text-zinc-300 bg-zinc-800 px-2 py-0.5 rounded">your_wechat_id</code></p>
+            <p>2. Add WeChat: <code className="text-zinc-300 bg-zinc-800 px-2 py-0.5 rounded">yly20-17</code></p>
             <p>3. Send your <strong>registered email</strong> and chosen plan</p>
             <p>Your account will be upgraded within a few hours.</p>
           </div>
