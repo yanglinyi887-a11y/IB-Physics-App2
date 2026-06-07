@@ -8,13 +8,11 @@ import { PlusCircle, FileText, BarChart3, BookOpen, ArrowRight } from "lucide-re
 export default function DashboardPage() {
   return (
     <div className="max-w-5xl mx-auto space-y-8">
-      {/* Welcome */}
       <div>
         <h1 className="text-2xl font-bold">Welcome back</h1>
         <p className="text-zinc-400 mt-1">Your IB Physics IA journey starts here.</p>
       </div>
 
-      {/* Quick actions */}
       <div className="grid sm:grid-cols-3 gap-4">
         <Card className="border-zinc-800 bg-zinc-900/50 hover:border-zinc-700 transition-colors cursor-pointer">
           <CardContent className="p-6 flex items-center gap-4">
@@ -36,7 +34,6 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      {/* Active project placeholder */}
       <Card className="border-zinc-800 bg-zinc-900/50">
         <CardHeader>
           <CardTitle className="text-lg">Your IA Projects</CardTitle>
@@ -53,7 +50,6 @@ export default function DashboardPage() {
         </CardContent>
       </Card>
 
-      {/* Features preview */}
       <h2 className="text-lg font-semibold pt-4">Available Tools</h2>
       <div className="grid sm:grid-cols-2 gap-4">
         {tools.map(t => (

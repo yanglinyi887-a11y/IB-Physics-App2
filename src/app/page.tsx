@@ -26,10 +26,12 @@ export default function LandingPage() {
           Your AI coach for a<br />
           <span className="text-emerald-400">7-point Physics IA</span>
         </h1>
-        <p className="text-lg text-zinc-400 max-w-2xl mx-auto mb-10">
+        <p className="text-lg text-zinc-400 max-w-2xl mx-auto mb-4">
           Upload your draft, get instant IB-criteria-aligned feedback. 
-          Generate graphs from CSV data. Read annotated 7-point exemplars. 
-          No API key needed. No tutor needed.
+          Generate graphs from CSV data. Read annotated 7-point exemplars.
+        </p>
+        <p className="text-sm text-emerald-400/80 font-medium mb-10">
+          No API key. No prompt engineering. No setup. We handle the AI – you focus on physics.
         </p>
         <div className="flex gap-4 justify-center">
           <Link href="/register">
@@ -59,6 +61,18 @@ export default function LandingPage() {
               <p className="text-zinc-400 text-sm leading-relaxed">{f.desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* API中转站 value prop */}
+      <section className="py-16 px-6 max-w-4xl mx-auto">
+        <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-8 text-center">
+          <h3 className="text-xl font-bold mb-3">You bring the physics. We bring the AI.</h3>
+          <p className="text-zinc-400 max-w-lg mx-auto leading-relaxed">
+            No OpenAI account needed. No API keys to configure. No prompt engineering to learn. 
+            We run the AI infrastructure — you just upload your draft, ask a question, or paste your data. 
+            It is like having an IB examiner on speed dial, minus the hourly rate.
+          </p>
         </div>
       </section>
 
@@ -115,7 +129,6 @@ export default function LandingPage() {
             <ul className="space-y-3 text-sm text-zinc-300 mb-8 flex-1">
               <li>• Everything in Pro</li>
               <li>• Devil Examiner deep review</li>
-              <li>• GPT-4o (not mini)</li>
               <li>• Priority queue, always fast</li>
               <li>• Version comparison</li>
               <li>• Weakness analysis reports</li>
@@ -142,5 +155,5 @@ const features = [
   { icon: "📚", title: "Annotated Exemplars", desc: "Read real 7-point IAs with 35-50 AI annotations per paper. Learn what examiners actually reward." },
   { icon: "🗺️", title: "Progress Tracking", desc: "Set your deadline. Get a week-by-week plan. Never fall behind on your IA again." },
   { icon: "🎯", title: "Topic Generator", desc: "Stuck on what to investigate? Tell us your interest area and difficulty level. Get 5 specific, realistic IA topics." },
-  { icon: "⚡", title: "No API Key Needed", desc: "We handle all the AI complexity. You focus on physics. No credit card for OpenAI, no prompt engineering." },
+  { icon: "⚡", title: "Zero Setup", desc: "We run the AI infrastructure. No API keys, no OpenAI account, no prompt engineering. You just write physics." },
 ]

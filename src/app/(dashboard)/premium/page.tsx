@@ -31,7 +31,6 @@ export default function PremiumPage() {
     finally { setLoading(false) }
   }
 
-  // Mock version data for demo
   const versions = [
     { v: 1, date: "2026-03-15", score: 15, changes: ["Initial draft"] },
     { v: 2, date: "2026-03-22", score: 18, changes: ["Added controlled variables detail", "Fixed apparatus uncertainties"] },
@@ -52,12 +51,11 @@ export default function PremiumPage() {
           <TabsTrigger value="weakness" className="flex-1"><TrendingUp className="w-4 h-4 mr-1" /> Weakness Analysis</TabsTrigger>
         </TabsList>
 
-        {/* Devil Examiner */}
         <TabsContent value="devil" className="space-y-4 mt-4">
           <Card className="border-zinc-800 bg-zinc-900/50">
             <CardHeader>
               <CardTitle className="flex items-center gap-2"><Skull className="w-5 h-5 text-red-400" /> Devil Examiner</CardTitle>
-              <CardDescription>3-round deep review. AI plays a ruthless IB examiner and finds every weakness.</CardDescription>
+              <CardDescription>3-round deep review. AI plays a ruthless IB examiner and finds every weakness. Uses maximum analysis depth.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <Textarea value={content} onChange={e => setContent(e.target.value)}
@@ -90,7 +88,6 @@ export default function PremiumPage() {
           )}
         </TabsContent>
 
-        {/* Version Compare */}
         <TabsContent value="compare" className="mt-4">
           <Card className="border-zinc-800 bg-zinc-900/50">
             <CardHeader>
@@ -128,7 +125,6 @@ export default function PremiumPage() {
           </Card>
         </TabsContent>
 
-        {/* Weakness Analysis */}
         <TabsContent value="weakness" className="mt-4">
           <Card className="border-zinc-800 bg-zinc-900/50">
             <CardHeader>
