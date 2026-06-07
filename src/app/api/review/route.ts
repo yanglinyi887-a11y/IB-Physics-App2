@@ -1,4 +1,4 @@
-import { openai } from "@/lib/ai"
+import { getModel } from "@/lib/ai"
 import { generateText } from "ai"
 import { checkAuth, checkRateLimit } from "@/lib/server/guard"
 
@@ -23,13 +23,11 @@ export async function POST(req: Request) {
     return Response.json({ error: "Quota exceeded. Upgrade to Pro for more." }, { status: 429 })
   }
 
-  const { content } = await req.json()
-  if (!content || content.length < 50) {
-    return Response.json({ error: "Draft too short" }, { status: 400 })
-  }
+  const { content, model = "deepseek-chat" } = await req.json()
+  if (!content || content.length < 50) return Response.json({ error: "Draft too short" }, { status: 400 })
 
   const result = await generateText({
-    model: openai("deepseek-chat"),
+    model: getModel(model),
     system: REVIEW_PROMPT,
     prompt: content.slice(0, 12000),
     temperature: 0.3,

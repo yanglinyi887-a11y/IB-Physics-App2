@@ -5,6 +5,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Send, Loader2 } from "lucide-react"
+import { ModelSelector } from "@/components/dashboard/model-selector"
+import type { ModelId } from "@/lib/models"
 
 interface Message { role: "user" | "assistant"; content: string }
 
@@ -17,6 +19,7 @@ export function CoachChat() {
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE])
   const [input, setInput] = useState("")
   const [loading, setLoading] = useState(false)
+  const [model, setModel] = useState<ModelId>("deepseek-chat")
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }) }, [messages])
@@ -32,9 +35,9 @@ export function CoachChat() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })) }),
+        body: JSON.stringify({ messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })), model }),
       })
-      if (!res.ok) throw new Error("Failed")
+      if (!res.ok) { const err = await res.json(); throw new Error(err.error) }
       const reader = res.body?.getReader()
       if (!reader) throw new Error("No reader")
       const decoder = new TextDecoder()
@@ -44,24 +47,22 @@ export function CoachChat() {
       while (true) {
         const { done, value } = await reader.read()
         if (done) break
-        const chunk = decoder.decode(value, { stream: true })
-        assistantContent += chunk
-        setMessages(prev => {
-          const copy = [...prev]
-          copy[copy.length - 1] = { role: "assistant", content: assistantContent }
-          return copy
-        })
+        assistantContent += decoder.decode(value, { stream: true })
+        setMessages(prev => { const copy = [...prev]; copy[copy.length - 1] = { role: "assistant", content: assistantContent }; return copy })
       }
-    } catch {
-      setMessages(prev => [...prev, { role: "assistant", content: "Sorry, something went wrong. Please try again." }])
-    } finally {
-      setLoading(false)
-    }
+    } catch (e: any) {
+      setMessages(prev => [...prev, { role: "assistant", content: e.message || "Sorry, something went wrong." }])
+    } finally { setLoading(false) }
   }
 
   return (
     <div className="flex flex-col h-[calc(100vh-5rem)]">
-      <div className="flex-1 overflow-y-auto space-y-4 p-2">
+      {/* Model selector toolbar */}
+      <div className="flex items-center justify-between pb-3 border-b border-zinc-800">
+        <ModelSelector value={model} onChange={setModel} />
+      </div>
+
+      <div className="flex-1 overflow-y-auto space-y-4 p-2 mt-2">
         {messages.map((m, i) => (
           <div key={i} className={`flex gap-3 ${m.role === "user" ? "justify-end" : ""}`}>
             {m.role === "assistant" && (
@@ -79,14 +80,10 @@ export function CoachChat() {
       </div>
 
       <div className="border-t border-zinc-800 pt-4 flex gap-3">
-        <Textarea
-          value={input}
-          onChange={e => setInput(e.target.value)}
+        <Textarea value={input} onChange={e => setInput(e.target.value)}
           onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send() } }}
           placeholder="Ask about your IA... (e.g. How should I structure my Research Design?)"
-          className="min-h-[60px] resize-none bg-zinc-900 border-zinc-700"
-          disabled={loading}
-        />
+          className="min-h-[60px] resize-none bg-zinc-900 border-zinc-700" disabled={loading} />
         <Button onClick={send} disabled={loading || !input.trim()} size="icon" className="h-[60px] w-[60px] shrink-0">
           {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
         </Button>

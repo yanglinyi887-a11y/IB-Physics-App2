@@ -1,4 +1,4 @@
-import { openai } from "@/lib/ai"
+import { getModel } from "@/lib/ai"
 import { streamText } from "ai"
 import { checkAuth, checkRateLimit } from "@/lib/server/guard"
 
@@ -19,9 +19,9 @@ export async function POST(req: Request) {
     return Response.json({ error: "Quota exceeded. Upgrade to Pro for more." }, { status: 429 })
   }
 
-  const { messages } = await req.json()
+  const { messages, model = "deepseek-chat" } = await req.json()
   const result = streamText({
-    model: openai("deepseek-chat"),
+    model: getModel(model),
     system: SYSTEM_PROMPT,
     messages,
     temperature: 0.5,
