@@ -1,7 +1,7 @@
 import fs from "node:fs"
 import path from "node:path"
 
-const DATA_FILE = path.join(process.cwd(), "data", "users.json")
+const DATA_FILE = process.env.VERCEL ? "/tmp/users.json" : path.join(process.cwd(), "data", "users.json")
 
 export interface StoredUser {
   id: string
@@ -12,7 +12,19 @@ export interface StoredUser {
   createdAt: string
 }
 
+function seedFromDeploy(): void {
+  const deployFile = path.join(process.cwd(), "data", "users.json");
+  if (!fs.existsSync(DATA_FILE) && fs.existsSync(deployFile)) {
+    try {
+      const dir = path.dirname(DATA_FILE);
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+      fs.copyFileSync(deployFile, DATA_FILE);
+    } catch {}
+  }
+}
+
 function readUsers(): StoredUser[] {
+  seedFromDeploy();
   try {
     if (!fs.existsSync(DATA_FILE)) return []
     const raw = fs.readFileSync(DATA_FILE, "utf-8")
