@@ -8,7 +8,8 @@ export async function POST(req: NextRequest) {
     if (!email || !password || password.length < 8) {
       return NextResponse.json({ error: "Email and password (min 8 chars) required" }, { status: 400 })
     }
-    if (findUserByEmail(email)) {
+    const existing = findUserByEmail(email)
+    if (existing) {
       return NextResponse.json({ error: "Email already registered" }, { status: 400 })
     }
     const passwordHash = await bcrypt.hash(password, 12)
