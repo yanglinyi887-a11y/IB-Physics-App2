@@ -1,7 +1,12 @@
 import fs from "node:fs"
 import path from "node:path"
 
-const DATA_FILE = process.env.VERCEL ? "/tmp/users.json" : path.join(process.cwd(), "data", "users.json")
+const IS_VERCEL = !!process.env.VERCEL;
+
+// On Vercel, try /tmp first, then fall back to deployed data/users.json
+// Writes go to /tmp, reads check both
+const DATA_FILE = IS_VERCEL ? "/tmp/users.json" : path.join(process.cwd(), "data", "users.json");
+const DEPLOYED_FILE = IS_VERCEL ? path.join(process.cwd(), "data", "users.json") : null;
 
 export interface StoredUser {
   id: string
@@ -12,25 +17,31 @@ export interface StoredUser {
   createdAt: string
 }
 
-function seedFromDeploy(): void {
-  const deployFile = path.join(process.cwd(), "data", "users.json");
-  if (!fs.existsSync(DATA_FILE) && fs.existsSync(deployFile)) {
-    try {
-      const dir = path.dirname(DATA_FILE);
-      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-      fs.copyFileSync(deployFile, DATA_FILE);
-    } catch {}
+function readUsers(): StoredUser[] {
+  const tmpUsers = readFile(DATA_FILE);
+  // On Vercel, also check deployed file for users that were committed via git
+  if (IS_VERCEL && DEPLOYED_FILE) {
+    const deployedUsers = readFile(DEPLOYED_FILE);
+    if (deployedUsers.length > 0) {
+      // Merge: tmp users take precedence (newer)
+      const merged = [...deployedUsers];
+      for (const tu of tmpUsers) {
+        const idx = merged.findIndex(u => u.email === tu.email);
+        if (idx >= 0) merged[idx] = tu;
+        else merged.push(tu);
+      }
+      return merged;
+    }
   }
+  return tmpUsers;
 }
 
-function readUsers(): StoredUser[] {
-  seedFromDeploy();
+function readFile(filePath: string): StoredUser[] {
   try {
-    if (!fs.existsSync(DATA_FILE)) return []
-    const raw = fs.readFileSync(DATA_FILE, "utf-8")
-    return JSON.parse(raw) as StoredUser[]
+    if (!fs.existsSync(filePath)) return [];
+    return JSON.parse(fs.readFileSync(filePath, "utf-8")) as StoredUser[];
   } catch {
-    return []
+    return [];
   }
 }
 

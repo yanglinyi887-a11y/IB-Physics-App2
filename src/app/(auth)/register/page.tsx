@@ -1,13 +1,11 @@
 "use client"
 import { useState } from "react"
-import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
 import { ParticleBackground } from "@/components/ui/particle-background"
 
 export default function RegisterPage() {
@@ -22,17 +20,57 @@ export default function RegisterPage() {
     e.preventDefault()
     setLoading(true)
     setError("")
+
     try {
-      const res = await fetch("/api/auth/register", {
+      // Step 1: Register
+      const regRes = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
       })
-      if (!res.ok) { const data = await res.json(); setError(data.error || "Registration failed"); setLoading(false); return }
-      const signInRes = await signIn("credentials", { email, password, redirect: false })
-      if (signInRes?.error) { setError("Account created but sign-in failed. Try logging in."); setLoading(false) }
-      else { router.push("/dashboard") }
-    } catch { setError("Something went wrong"); setLoading(false) }
+      if (!regRes.ok) {
+        const data = await regRes.json().catch(() => ({}))
+        setError(data.error || "????")
+        setLoading(false)
+        return
+      }
+
+      // Step 2: Auto-login with CSRF
+      const csrfRes = await fetch("/api/auth/csrf")
+      const csrfData = await csrfRes.json()
+      const csrfToken = csrfData.csrfToken
+
+      if (!csrfToken) {
+        // Try signIn as fallback
+        const { signIn } = await import("next-auth/react")
+        const si = await signIn("credentials", { email, password, redirect: false })
+        if (si?.ok) { router.push("/dashboard") }
+        else { setError("???????????"); setLoading(false) }
+        return
+      }
+
+      const formData = new URLSearchParams()
+      formData.append("email", email)
+      formData.append("password", password)
+      formData.append("csrfToken", csrfToken)
+      formData.append("callbackUrl", "/dashboard")
+      formData.append("json", "true")
+
+      const loginRes = await fetch("/api/auth/callback/credentials", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: formData.toString(),
+      })
+
+      if (loginRes.ok || loginRes.redirected) {
+        router.push("/dashboard")
+      } else {
+        router.push("/login")
+      }
+    } catch {
+      setError("????????")
+      setLoading(false)
+    }
   }
 
   return (
@@ -44,8 +82,6 @@ export default function RegisterPage() {
           <CardDescription>Start your 7-day free Pro trial</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          
-          
           <form onSubmit={handleRegister} className="space-y-3">
             <div><Label htmlFor="name">Name</Label><Input id="name" value={name} onChange={e => setName(e.target.value)} placeholder="Your name" required /></div>
             <div><Label htmlFor="email">Email</Label><Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@school.edu" required /></div>

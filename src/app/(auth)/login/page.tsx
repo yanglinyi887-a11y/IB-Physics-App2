@@ -1,13 +1,11 @@
 "use client"
 import { useState } from "react"
-import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
 import { ParticleBackground } from "@/components/ui/particle-background"
 
 export default function LoginPage() {
@@ -17,13 +15,50 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 
-  const handleEmailLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError("")
-    const res = await signIn("credentials", { email, password, redirect: false })
-    if (res?.error) { setError("Invalid email or password"); setLoading(false) }
-    else { router.push("/dashboard") }
+
+    try {
+      // Step 1: Get CSRF token
+      const csrfRes = await fetch("/api/auth/csrf")
+      const csrfData = await csrfRes.json()
+      const csrfToken = csrfData.csrfToken
+
+      if (!csrfToken) {
+        setError("????????????????")
+        setLoading(false)
+        return
+      }
+
+      // Step 2: Submit credentials
+      const formData = new URLSearchParams()
+      formData.append("email", email)
+      formData.append("password", password)
+      formData.append("csrfToken", csrfToken)
+      formData.append("callbackUrl", "/dashboard")
+      formData.append("json", "true")
+
+      const loginRes = await fetch("/api/auth/callback/credentials", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: formData.toString(),
+      })
+
+      if (loginRes.ok) {
+        router.push("/dashboard")
+      } else if (loginRes.status === 302 || loginRes.redirected) {
+        router.push("/dashboard")
+      } else {
+        const data = await loginRes.json().catch(() => ({}))
+        setError(data.url ? "?????????..." : "???????")
+        if (data.url) router.push(data.url)
+      }
+    } catch {
+      setError("????????")
+    }
+    setLoading(false)
   }
 
   return (
@@ -35,11 +70,9 @@ export default function LoginPage() {
           <CardDescription>Sign in to Physics IA Coach</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          
-          
-          <form onSubmit={handleEmailLogin} className="space-y-3">
+          <form onSubmit={handleLogin} className="space-y-3">
             <div><Label htmlFor="email">Email</Label><Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@school.edu" required /></div>
-            <div><Label htmlFor="password">Password</Label><Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" required /></div>
+            <div><Label htmlFor="password">Password</Label><Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Min 8 characters" required /></div>
             {error && <p className="text-red-400 text-sm">{error}</p>}
             <Button type="submit" className="w-full" disabled={loading}>{loading ? "Signing in..." : "Sign in"}</Button>
           </form>
