@@ -1,0 +1,169 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  passwordHash  String?
+  grade         String?
+  level         String?
+  targetScore   Int?
+  tier          String    @default("free")
+  stripeCustomerId String?
+  stripeSubscriptionId String?
+  subscriptionEnds  DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  iaProjects    IAProject[]
+  readingProgress ReadingProgress[]
+  apiUsage      APIUsage[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model IAProject {
+  id               String   @id @default(cuid())
+  userId           String
+  topic            String?
+  researchQuestion String?
+  status           String   @default("stage0")
+  deadline         DateTime?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  user     User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sections IASection[]
+  reviews  Review[]
+}
+
+model IASection {
+  id              String   @id @default(cuid())
+  projectId       String
+  stage           String
+  contentMarkdown String   @default("")
+  version         Int      @default(1)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  project IAProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  projectId  String
+  scoresJson String
+  feedbackJson String
+  modelUsed  String?
+  tokensCost Float?
+  createdAt  DateTime @default(now())
+
+  project IAProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Exemplar {
+  id              String   @id @default(cuid())
+  title           String
+  topic           String
+  score           Int
+  maxScore        Int      @default(24)
+  grade           String?
+  contentMarkdown String
+  source          String?
+  sections        String?
+  createdAt       DateTime @default(now())
+
+  annotations      Annotation[]
+  readingProgress  ReadingProgress[]
+}
+
+model Annotation {
+  id             String   @id @default(cuid())
+  exemplarId     String
+  type           String
+  sectionId      String?
+  highlightStart Int
+  highlightEnd   Int
+  highlightText  String?
+  whyGood        String
+  howToApply     String
+  criteriaRef    String?
+  tier           String   @default("pro")
+  createdAt      DateTime @default(now())
+
+  exemplar Exemplar @relation(fields: [exemplarId], references: [id], onDelete: Cascade)
+}
+
+model ReadingProgress {
+  id              String   @id @default(cuid())
+  userId          String
+  exemplarId      String
+  mode            String   @default("free")
+  annotationsRead String   @default("[]")
+  lastPosition    Int      @default(0)
+  completed       Boolean  @default(false)
+  updatedAt       DateTime @updatedAt
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exemplar Exemplar @relation(fields: [exemplarId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, exemplarId])
+}
+
+model APIUsage {
+  id        String   @id @default(cuid())
+  userId    String
+  endpoint  String
+  model     String?
+  tokensIn  Int      @default(0)
+  tokensOut Int      @default(0)
+  cost      Float    @default(0)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
