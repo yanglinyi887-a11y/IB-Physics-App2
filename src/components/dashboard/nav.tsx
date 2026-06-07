@@ -35,7 +35,7 @@ export function DashboardNav() {
         })}
       </nav>
       <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-zinc-800">
-        <Link href="/settings" className={cn(
+        <Link href="/dashboard/settings" className={cn(
           "flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-white hover:bg-zinc-800/50 transition-colors",
           pathname === "/settings" && "bg-zinc-800 text-white"
         )}>
