@@ -132,10 +132,10 @@ export default async function LandingPage() {
 }
 
 const features = [
-  { icon: "?", title: "AI Draft Review", desc: "Upload your .docx and get a detailed IB-criteria score breakdown in seconds. Know exactly what to fix." },
-  { icon: "?", title: "Data Analysis", desc: "Upload CSV experiment data. Auto-generate IB-compliant graphs with error bars, best-fit lines, and uncertainty calculations." },
-  { icon: "?", title: "Annotated Exemplars", desc: "Read real 7-point IAs with 35-50 AI annotations per paper. Learn what examiners actually reward." },
-  { icon: "?", title: "Progress Tracking", desc: "Set your deadline. Get a week-by-week plan. Never fall behind on your IA again." },
-  { icon: "?", title: "Topic Generator", desc: "Stuck on what to investigate? Tell us your interest area and difficulty level. Get 5 specific, realistic IA topics." },
+  { icon: "??", title: "AI Draft Review", desc: "Upload your .docx and get a detailed IB-criteria score breakdown in seconds. Know exactly what to fix." },
+  { icon: "??", title: "Data Analysis", desc: "Upload CSV experiment data. Auto-generate IB-compliant graphs with error bars, best-fit lines, and uncertainty calculations." },
+  { icon: "??", title: "Annotated Exemplars", desc: "Read real 7-point IAs with 35-50 AI annotations per paper. Learn what examiners actually reward." },
+  { icon: "??", title: "Progress Tracking", desc: "Set your deadline. Get a week-by-week plan. Never fall behind on your IA again." },
+  { icon: "??", title: "Topic Generator", desc: "Stuck on what to investigate? Tell us your interest area and difficulty level. Get 5 specific, realistic IA topics." },
   { icon: "?", title: "Zero Setup", desc: "We run the AI infrastructure. No API keys, no OpenAI account, no prompt engineering. You just write physics." },
 ]
