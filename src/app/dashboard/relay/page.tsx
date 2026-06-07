@@ -20,7 +20,7 @@ const ALL_MODELS = [
 ]
 
 export default function RelayPage() {
-  const [relayUrl, setRelayUrl] = useState("https://api.api2d.com/v1")
+  const [relayUrl, setRelayUrl] = useState("https://api.worldbase.ai/v1")
   const [relayKey, setRelayKey] = useState("")
   const [testing, setTesting] = useState(false)
   const [testResult, setTestResult] = useState<{ ok: boolean; msg: string } | null>(null)
@@ -62,8 +62,8 @@ export default function RelayPage() {
               <CardDescription>One key, all models. The cheapest way to access GPT-4o, Claude, Gemini, and DeepSeek.</CardDescription>
             </CardHeader>
             <CardContent>
-              <a href="https://api2d.com" target="_blank" className="inline-flex items-center gap-2 px-4 py-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 transition-colors">
-                Open api2d.com <ExternalLink className="w-4 h-4" />
+              <a href="https://worldbase.ai" target="_blank" className="inline-flex items-center gap-2 px-4 py-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 transition-colors">
+                Open worldbase.ai <ExternalLink className="w-4 h-4" />
               </a>
               <p className="text-sm text-zinc-400 mt-3">
                 Register with email, top up via WeChat/Alipay, copy your API key.
@@ -74,7 +74,7 @@ export default function RelayPage() {
           <Card className="border-zinc-800 bg-zinc-900/50">
             <CardHeader>
               <CardTitle className="text-lg">Step 2: Enter your key</CardTitle>
-              <CardDescription>Paste your api2d key and base URL below.</CardDescription>
+              <CardDescription>Paste your worldbase key and base URL below.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               <div>
@@ -82,7 +82,7 @@ export default function RelayPage() {
                 <Input
                   value={relayUrl}
                   onChange={e => setRelayUrl(e.target.value)}
-                  placeholder="https://api.api2d.com/v1"
+                  placeholder="https://api.worldbase.ai/v1"
                   className="bg-zinc-900 border-zinc-700 font-mono text-sm"
                 />
               </div>
@@ -145,7 +145,7 @@ export default function RelayPage() {
           <Card className="border-zinc-800 bg-zinc-900/50">
             <CardHeader>
               <CardTitle className="text-lg">All Available Models</CardTitle>
-              <CardDescription>Once your key is connected, all 9 models work through one api2d key.</CardDescription>
+              <CardDescription>Once your key is connected, all 9 models work through one worldbase key.</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid sm:grid-cols-3 gap-3">
