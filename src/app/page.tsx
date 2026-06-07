@@ -71,7 +71,7 @@ export default async function LandingPage() {
         <div className="grid md:grid-cols-3 gap-6">
           <div className="rounded-xl border border-zinc-800 p-6 flex flex-col">
             <h3 className="font-semibold text-lg">Free</h3>
-            <p className="text-3xl font-bold mt-2">$0</p>
+            <p className="text-3xl font-bold mt-2">¥0</p>
             <p className="text-zinc-400 text-sm mt-1 mb-6">Try it out</p>
             <ul className="space-y-3 text-sm text-zinc-300 mb-8 flex-1">
               <li>3 topic suggestions</li>
@@ -85,11 +85,11 @@ export default async function LandingPage() {
             <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-500 text-black">Most popular</Badge>
             <h3 className="font-semibold text-lg">Pro</h3>
             <div className="flex items-baseline gap-2 mt-2">
-              <span className="text-3xl font-bold">${PRICING.pro.current}</span>
-              <span className="text-zinc-500 line-through text-sm">${PRICING.pro.original}</span>
+              <span className="text-3xl font-bold">¥{PRICING.pro.current}</span>
+              <span className="text-zinc-500 line-through text-sm">¥{PRICING.pro.original}</span>
               <span className="text-zinc-400 text-sm">/mo</span>
             </div>
-            <p className="text-zinc-400 text-sm mt-1 mb-6">or ${PRICING.pro.yearly}/year (${PRICING.pro.monthlyEquivalent}/mo)</p>
+            <p className="text-zinc-400 text-sm mt-1 mb-6">or ¥{PRICING.pro.yearly}/year (¥{PRICING.pro.monthlyEquivalent}/mo)</p>
             <ul className="space-y-3 text-sm text-zinc-300 mb-8 flex-1">
               <li>Unlimited AI coaching dialogue</li>
               <li>Unlimited draft reviews</li>
@@ -104,11 +104,11 @@ export default async function LandingPage() {
           <div className="rounded-xl border border-zinc-800 p-6 flex flex-col">
             <h3 className="font-semibold text-lg">Premium</h3>
             <div className="flex items-baseline gap-2 mt-2">
-              <span className="text-3xl font-bold">${PRICING.premium.current}</span>
-              <span className="text-zinc-500 line-through text-sm">${PRICING.premium.original}</span>
+              <span className="text-3xl font-bold">¥{PRICING.premium.current}</span>
+              <span className="text-zinc-500 line-through text-sm">¥{PRICING.premium.original}</span>
               <span className="text-zinc-400 text-sm">/mo</span>
             </div>
-            <p className="text-zinc-400 text-sm mt-1 mb-6">or ${PRICING.premium.yearly}/year (${PRICING.premium.monthlyEquivalent}/mo)</p>
+            <p className="text-zinc-400 text-sm mt-1 mb-6">or ¥{PRICING.premium.yearly}/year (¥{PRICING.premium.monthlyEquivalent}/mo)</p>
             <ul className="space-y-3 text-sm text-zinc-300 mb-8 flex-1">
               <li>Everything in Pro</li>
               <li>Devil Examiner deep review</li>
