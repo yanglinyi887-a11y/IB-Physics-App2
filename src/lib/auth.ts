@@ -17,14 +17,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!user) return null
         const valid = await bcrypt.compare(credentials.password as string, user.passwordHash)
         if (!valid) return null
-        return { id: user.id, name: user.name ?? undefined, email: user.email }
+        return { id: user.id, name: user.name ?? undefined, email: user.email, tier: user.tier }
       },
     }),
   ],
   pages: { signIn: "/login" },
   callbacks: {
-    async session({ session, token }) {
-      if (session.user) { session.user.id = token.sub! }
+    async jwt({ token, user }: any) {
+      if (user) token.tier = user.tier || "free"
+      return token
+    },
+    async session({ session, token }: any) {
+      if (session.user) { session.user.id = token.sub!; (session.user as any).tier = token.tier || "free" }
       return session
     },
   },

@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
 
-interface Props { user: { name?: string | null; email?: string | null; image?: string | null } }
+interface Props { user: { name?: string | null; email?: string | null; image?: string | null; tier?: string } }
 
 export function DashboardHeader({ user }: Props) {
   const initials = user.name?.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2) || "U"
@@ -16,7 +16,11 @@ export function DashboardHeader({ user }: Props) {
       <div className="h-14 px-6 flex items-center justify-between">
         <Link href="" className="font-bold text-lg tracking-tight">Physics IA</Link>
         <div className="flex items-center gap-3">
-          <Badge variant="outline" className="text-emerald-400 border-emerald-500/30">Free</Badge>
+          {user.tier && user.tier !== "free" ? (
+            <Badge className={user.tier === "pro" ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30" : "bg-amber-500/10 text-amber-400 border-amber-500/30"}>{user.tier}</Badge>
+          ) : (
+            <Badge variant="outline" className="text-zinc-500 border-zinc-700">Free</Badge>
+          )}
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar className="h-8 w-8 cursor-pointer"><AvatarFallback className="bg-zinc-700 text-xs">{initials}</AvatarFallback></Avatar>
