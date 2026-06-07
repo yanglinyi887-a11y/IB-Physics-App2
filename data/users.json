@@ -1,0 +1,10 @@
+[
+  {
+    "id": "a872e5d2-070b-47a3-b88d-c16a5d28618c",
+    "name": "Test",
+    "email": "test@test.com",
+    "passwordHash": "$2b$12$7oNcEjykYQ2UBMoXVbYPh.xB2b8HGUeW1yWeqf86RVwwJSnHtet6u",
+    "tier": "free",
+    "createdAt": "2026-06-07T12:43:21.197Z"
+  }
+]

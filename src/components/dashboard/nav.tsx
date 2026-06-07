@@ -13,7 +13,7 @@ const links = [
   { href: "/dashboard/analysis", label: "Data Analysis", icon: BarChart3 },
   { href: "/dashboard/exemplars", label: "Exemplar Library", icon: BookOpen },
   { href: "/dashboard/progress", label: "Progress", icon: TrendingUp },
-  { href: "/dashboard/premium", label: "Premium", icon: Crown },
+  { href: "/dashboard/premium", label: "充值", icon: Crown },
   { href: "/dashboard/relay", label: "Relay Station", icon: Key },
 ]
 

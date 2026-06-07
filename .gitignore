@@ -48,5 +48,6 @@ prisma/dev.db-journal
 .idea/
 .vercel
 
-# user data
-data/
+# user data (allow seed file)
+data/*
+!data/users.json
