@@ -7,6 +7,13 @@ import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Key, Plus, Trash2, TrendingUp } from "lucide-react"
 
+const PROVIDER_OPTIONS = [
+  { value: "DeepSeek", label: "DeepSeek", baseURL: "api.deepseek.com" },
+  { value: "OpenAI", label: "OpenAI", baseURL: "api.openai.com" },
+  { value: "Google", label: "Google Gemini", baseURL: "generativelanguage.googleapis.com" },
+  { value: "Anthropic", label: "Anthropic Claude", baseURL: "api.anthropic.com" },
+]
+
 export default function RelayPage() {
   const [keys, setKeys] = useState<Array<{ id: string; provider: string; keyPreview: string; active: boolean; usedCost: number }>>([])
   const [newKey, setNewKey] = useState("")
@@ -25,31 +32,31 @@ export default function RelayPage() {
     <div className="max-w-4xl mx-auto space-y-6">
       <div>
         <h1 className="text-2xl font-bold flex items-center gap-2"><Key className="w-6 h-6 text-emerald-400" /> API Relay Station</h1>
-        <p className="text-zinc-400 mt-1">Manage your API key pool. Buy keys in bulk, add them here, students use them transparently. You pocket the spread.</p>
+        <p className="text-zinc-400 mt-1">Multi-provider key pool. 9 models across DeepSeek, OpenAI, Gemini, Claude. Students pick any model — you pay wholesale, they pay retail.</p>
       </div>
 
       <Card className="border-emerald-500/30 bg-emerald-500/5">
         <CardContent className="p-6">
           <div className="grid sm:grid-cols-3 gap-6 text-center">
-            <div><p className="text-xs text-zinc-400 mb-1">You pay (wholesale)</p><p className="text-2xl font-bold text-emerald-400">0.001/k</p><p className="text-xs text-zinc-500">per 1K tokens</p></div>
-            <div><p className="text-xs text-zinc-400 mb-1">Student pays (retail)</p><p className="text-2xl font-bold text-white">59-128</p><p className="text-xs text-zinc-500">per month</p></div>
+            <div><p className="text-xs text-zinc-400 mb-1">You pay (wholesale)</p><p className="text-2xl font-bold text-emerald-400">0.001/k</p><p className="text-xs text-zinc-500">per 1K tokens avg</p></div>
+            <div><p className="text-xs text-zinc-400 mb-1">Student pays (retail)</p><p className="text-2xl font-bold text-white">59-128</p><p className="text-xs text-zinc-500">per month, any model</p></div>
             <div><p className="text-xs text-zinc-400 mb-1">Your margin</p><p className="text-2xl font-bold text-amber-400">~85%</p><p className="text-xs text-zinc-500">gross profit</p></div>
           </div>
         </CardContent>
       </Card>
 
       <Card className="border-zinc-800 bg-zinc-900/50">
-        <CardHeader><CardTitle className="text-lg">Add API Key</CardTitle><CardDescription>Buy keys from api2d.com or platform.deepseek.com and paste here.</CardDescription></CardHeader>
-        <CardContent className="flex gap-3">
+        <CardHeader><CardTitle className="text-lg">Add API Key</CardTitle><CardDescription>Buy keys from any provider or relay station and paste here.</CardDescription></CardHeader>
+        <CardContent className="flex gap-3 flex-wrap">
           <Select value={provider} onValueChange={(v: string | null) => setProvider(v || "DeepSeek")}>
-            <SelectTrigger className="w-[140px] bg-zinc-900 border-zinc-700"><SelectValue /></SelectTrigger>
+            <SelectTrigger className="w-[180px] bg-zinc-900 border-zinc-700"><SelectValue /></SelectTrigger>
             <SelectContent className="border-zinc-700 bg-zinc-900">
-              <SelectItem value="DeepSeek">DeepSeek</SelectItem>
-              <SelectItem value="OpenAI">OpenAI</SelectItem>
-              <SelectItem value="api2d">api2d</SelectItem>
+              {PROVIDER_OPTIONS.map(p => (
+                <SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
-          <Input value={newKey} onChange={e => setNewKey(e.target.value)} placeholder="sk-..." className="flex-1 bg-zinc-900 border-zinc-700 font-mono text-sm" />
+          <Input value={newKey} onChange={e => setNewKey(e.target.value)} placeholder="sk-... or AIza... or sk-ant-..." className="flex-1 min-w-[200px] bg-zinc-900 border-zinc-700 font-mono text-sm" />
           <Button onClick={addKey} className="bg-emerald-500 hover:bg-emerald-400 text-black"><Plus className="w-4 h-4 mr-1" /> Add</Button>
         </CardContent>
       </Card>
@@ -62,7 +69,7 @@ export default function RelayPage() {
           </div>
         </CardHeader>
         <CardContent>
-          {keys.length === 0 ? <p className="text-center text-zinc-500 py-8">No keys in pool. Add your first API key above.</p> : (
+          {keys.length === 0 ? <p className="text-center text-zinc-500 py-8">No keys yet. Add your first API key above.</p> : (
             <div className="space-y-2">
               {keys.map(k => (
                 <div key={k.id} className="flex items-center justify-between p-3 rounded-lg bg-zinc-950 border border-zinc-800">
@@ -82,11 +89,10 @@ export default function RelayPage() {
       <Card className="border-zinc-800 bg-zinc-900/50">
         <CardHeader><CardTitle className="text-lg">How it works</CardTitle></CardHeader>
         <CardContent className="space-y-3 text-sm text-zinc-300">
-          <p>1. <strong>Buy API keys</strong> from api2d.com or DeepSeek at wholesale (1 yuan = thousands of calls)</p>
-          <p>2. <strong>Add keys here</strong> - system load-balances across all active keys</p>
-          <p>3. <strong>Students pay you</strong> 59-128/month for unlimited access</p>
-          <p>4. <strong>System routes requests</strong> through the least-used key automatically</p>
-          <p>5. <strong>You keep the spread</strong> - cost per student ~5-10/month, they pay 59-128</p>
+          <p>1. <strong>Buy API keys</strong> from any provider or relay station (api2d, openai-hk, etc.)</p>
+          <p>2. <strong>Add keys here</strong> — system routes to the right provider automatically</p>
+          <p>3. <strong>Students pick any model</strong> — DeepSeek, Gemini, Claude, GPT-4o — one price</p>
+          <p>4. <strong>You keep the spread</strong> — wholesale API cost per student ~5-10/month</p>
         </CardContent>
       </Card>
     </div>
