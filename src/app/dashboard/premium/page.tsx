@@ -5,7 +5,35 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
-import { Loader2, Sparkles, Skull, GitCompare, TrendingUp } from "lucide-react"
+import { Loader2, Sparkles, Skull, GitCompare, TrendingUp, Check, Zap, Crown, QrCode } from "lucide-react"
+
+const PLANS = [
+  {
+    name: "Free",
+    price: "0",
+    icon: Zap,
+    color: "zinc",
+    features: ["AI Coach 3��/Сʱ", "IA Editor", "Data Analysis", "Topic Generator", "Exemplar Library"],
+    cta: "Current Plan",
+  },
+  {
+    name: "Pro",
+    price: "59",
+    icon: Sparkles,
+    color: "emerald",
+    features: ["ȫ�� 9 �� AI ģ��", "AI Coach 50��/Сʱ", "Draft Review ����", "Data Analysis", "Exemplar ȫ����"],
+    cta: "ɨ������ Pro",
+    popular: true,
+  },
+  {
+    name: "Premium",
+    price: "128",
+    icon: Crown,
+    color: "amber",
+    features: ["Pro ȫ������", "AI Coach 200��/Сʱ", "Devil �����������", "Version Compare", "Weakness Analysis"],
+    cta: "ɨ������ Premium",
+  },
+]
 
 export default function PremiumPage() {
   const [activeTab, setActiveTab] = useState("devil")
@@ -38,10 +66,84 @@ export default function PremiumPage() {
   ]
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto space-y-8">
+      {/* Pricing Section */}
       <div>
-        <h1 className="text-2xl font-bold">Premium Tools</h1>
-        <p className="text-zinc-400 mt-1">Advanced AI analysis for students aiming for a 7.</p>
+        <h1 className="text-2xl font-bold">Upgrade Your Account</h1>
+        <p className="text-zinc-400 mt-1">Get unlimited AI coaching and advanced review tools.</p>
+      </div>
+
+      <div className="grid sm:grid-cols-3 gap-4">
+        {PLANS.map(plan => {
+          const Icon = plan.icon
+          return (
+            <Card key={plan.name} className={`border-zinc-800 bg-zinc-900/50 relative ${
+              plan.popular ? "ring-1 ring-emerald-500/50" : ""
+            }`}>
+              {plan.popular && (
+                <Badge className="absolute -top-2 left-1/2 -translate-x-1/2 bg-emerald-500 text-black text-xs">Most Popular</Badge>
+              )}
+              <CardHeader className="text-center pb-2">
+                <Icon className={`w-8 h-8 mx-auto mb-2 ${
+                  plan.color === "emerald" ? "text-emerald-400" :
+                  plan.color === "amber" ? "text-amber-400" : "text-zinc-400"
+                }`} />
+                <CardTitle className="text-lg">{plan.name}</CardTitle>
+                <div className="mt-2">
+                  <span className="text-3xl font-bold">¥{plan.price}</span>
+                  {plan.price !== "0" && <span className="text-zinc-400 text-sm">/��</span>}
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <ul className="space-y-2">
+                  {plan.features.map(f => (
+                    <li key={f} className="flex items-start gap-2 text-sm text-zinc-300">
+                      <Check className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <Button className={`w-full ${
+                  plan.name === "Free" ? "bg-zinc-800 text-zinc-400" :
+                  plan.color === "emerald" ? "bg-emerald-500 hover:bg-emerald-400 text-black" :
+                  "bg-amber-500 hover:bg-amber-400 text-black"
+                }`} disabled={plan.name === "Free"}>
+                  {plan.cta}
+                </Button>
+              </CardContent>
+            </Card>
+          )
+        })}
+      </div>
+
+      {/* Payment Method */}
+      <Card className="border-zinc-800 bg-zinc-900/50">
+        <CardHeader className="text-center">
+          <QrCode className="w-10 h-10 mx-auto text-emerald-400 mb-2" />
+          <CardTitle>WeChat Pay / Alipay</CardTitle>
+          <CardDescription>Scan the QR code to pay. Send a screenshot + your email to get upgraded within 24 hours.</CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-col items-center space-y-4">
+          <div className="w-48 h-48 border-2 border-dashed border-zinc-700 rounded-xl flex items-center justify-center bg-zinc-900">
+            <div className="text-center">
+              <QrCode className="w-12 h-12 text-zinc-600 mx-auto mb-1" />
+              <p className="text-xs text-zinc-500">Replace with your<br />WeChat QR code</p>
+              <p className="text-xs text-zinc-600 mt-1">public/qr.png</p>
+            </div>
+          </div>
+          <div className="text-sm text-zinc-400 text-center space-y-1">
+            <p>1. Scan QR code and pay <strong className="text-emerald-400">¥59 (Pro)</strong> or <strong className="text-amber-400">¥128 (Premium)</strong></p>
+            <p>2. Add WeChat: <code className="text-zinc-300 bg-zinc-800 px-2 py-0.5 rounded">your_wechat_id</code></p>
+            <p>3. Send your <strong>registered email</strong> and chosen plan</p>
+            <p>Your account will be upgraded within a few hours.</p>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Tools Section */}
+      <div className="pt-4">
+        <h2 className="text-xl font-bold mb-4">Premium Tools</h2>
+        <p className="text-zinc-400 -mt-3 mb-6">Available to Premium users. Upgrade above to unlock.</p>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -55,71 +157,63 @@ export default function PremiumPage() {
           <Card className="border-zinc-800 bg-zinc-900/50">
             <CardHeader>
               <CardTitle className="flex items-center gap-2"><Skull className="w-5 h-5 text-red-400" /> Devil Examiner</CardTitle>
-              <CardDescription>3-round deep review. AI plays a ruthless IB examiner and finds every weakness. Uses maximum analysis depth.</CardDescription>
+              <CardDescription>3-round deep review. AI plays a ruthless IB examiner and finds every weakness.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Textarea value={content} onChange={e => setContent(e.target.value)}
-                placeholder="Paste your full IA draft here..."
-                className="min-h-[150px] bg-zinc-900 border-zinc-700" />
-              {error && <p className="text-red-400 text-sm">{error}</p>}
-              <Button onClick={runDevilReview} disabled={loading || content.length < 100} className="w-full bg-red-500 hover:bg-red-400 text-white">
-                {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Skull className="w-4 h-4 mr-2" />}
-                {loading ? "Running 3-round analysis..." : "Unleash the Devil Examiner"}
+              <Textarea
+                value={content}
+                onChange={e => setContent(e.target.value)}
+                placeholder="Paste your IA draft here (min 100 characters)..."
+                className="min-h-[160px] bg-zinc-950 border-zinc-700 text-sm"
+              />
+              <Button onClick={runDevilReview} disabled={loading || content.length < 100} className="bg-red-500 hover:bg-red-400 text-white">
+                {loading ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Skull className="w-4 h-4 mr-1" />}
+                {loading ? "Analyzing..." : "Run Devil Review"}
               </Button>
+              {error && <p className="text-red-400 text-sm">{error}</p>}
+              {rounds.length > 0 && (
+                <div className="space-y-3 mt-4">
+                  {rounds.map((r, i) => (
+                    <Card key={i} className="border-zinc-800 bg-zinc-950">
+                      <CardHeader className="pb-2"><CardTitle className="text-sm">Round {i + 1}</CardTitle></CardHeader>
+                      <CardContent><p className="text-sm text-zinc-300 whitespace-pre-wrap">{r}</p></CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
             </CardContent>
           </Card>
-
-          {rounds.length === 3 && (
-            <div className="space-y-4">
-              <Card className="border-zinc-800 bg-zinc-900/50">
-                <CardHeader><CardTitle className="text-sm text-zinc-400">Round 1: Score Breakdown</CardTitle></CardHeader>
-                <CardContent><pre className="text-sm text-zinc-300 whitespace-pre-wrap font-sans">{rounds[0]}</pre></CardContent>
-              </Card>
-              <Card className="border-red-500/30 bg-red-500/5">
-                <CardHeader><CardTitle className="text-sm text-red-400 flex items-center gap-2"><Skull className="w-4 h-4" /> Round 2: Devil Questions</CardTitle></CardHeader>
-                <CardContent><pre className="text-sm text-zinc-300 whitespace-pre-wrap font-sans">{rounds[1]}</pre></CardContent>
-              </Card>
-              <Card className="border-emerald-500/30 bg-emerald-500/5">
-                <CardHeader><CardTitle className="text-sm text-emerald-400">Round 3: Final Verdict</CardTitle></CardHeader>
-                <CardContent><pre className="text-sm text-zinc-300 whitespace-pre-wrap font-sans">{rounds[2]}</pre></CardContent>
-              </Card>
-              <Button variant="outline" className="w-full" onClick={() => { setRounds([]); setContent("") }}>Run Again</Button>
-            </div>
-          )}
         </TabsContent>
 
         <TabsContent value="compare" className="mt-4">
           <Card className="border-zinc-800 bg-zinc-900/50">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><GitCompare className="w-5 h-5 text-blue-400" /> Version Comparison</CardTitle>
-              <CardDescription>Track your IA improvement across multiple drafts. See what changed and where you still need work.</CardDescription>
+              <CardTitle className="flex items-center gap-2"><GitCompare className="w-5 h-5 text-blue-400" /> Version Compare</CardTitle>
+              <CardDescription>Track your IA improvements across drafts.</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
-                {versions.map((v, i) => (
-                  <div key={v.v} className="flex items-center gap-4 p-3 rounded-lg bg-zinc-900 border border-zinc-800">
-                    <Badge className="text-xs w-12 justify-center">v{v.v}</Badge>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium">{v.date}</span>
-                        {i > 0 && (
-                          <Badge variant="outline" className="text-emerald-400 text-xs">
-                            +{v.score - versions[i-1].score} points
-                          </Badge>
-                        )}
-                      </div>
-                      <p className="text-xs text-zinc-400 mt-0.5">{v.changes.join(" · ")}</p>
+              <div className="space-y-4">
+                {versions.map(v => (
+                  <div key={v.v} className="flex items-center gap-4 p-4 rounded-lg bg-zinc-950 border border-zinc-800">
+                    <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center">
+                      <span className="text-lg font-bold text-zinc-300">v{v.v}</span>
                     </div>
-                    <Badge className="bg-emerald-500/10 text-emerald-400">{v.score}/24</Badge>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-sm text-zinc-400">{v.date}</span>
+                        <Badge className="bg-emerald-500/10 text-emerald-400 text-xs">Score: {v.score}/24</Badge>
+                      </div>
+                      <ul className="text-xs text-zinc-400 space-y-0.5">
+                        {v.changes.map((c, i) => <li key={i}>• {c}</li>)}
+                      </ul>
+                    </div>
+                    <div className="text-right">
+                      <TrendingUp className="w-4 h-4 text-emerald-400 inline" />
+                      <span className="text-sm text-emerald-400 ml-1">+{v.v > 1 ? 3 : 0}</span>
+                    </div>
                   </div>
                 ))}
-              </div>
-              <div className="mt-6 p-4 rounded-lg bg-zinc-950 border border-zinc-800">
-                <p className="text-sm text-zinc-300">
-                  <span className="text-emerald-400 font-semibold">Trend:</span> Score improved from 15 to 21 (+6) over 3 versions.
-                  The largest jump came between v1 and v2 (+3) by adding controlled variable details.
-                  To reach 24, focus on further expanding Evaluation (currently 4/6).
-                </p>
+                <p className="text-xs text-zinc-500 text-center">This is a demo. Your actual versions will appear here.</p>
               </div>
             </CardContent>
           </Card>
@@ -129,35 +223,27 @@ export default function PremiumPage() {
           <Card className="border-zinc-800 bg-zinc-900/50">
             <CardHeader>
               <CardTitle className="flex items-center gap-2"><TrendingUp className="w-5 h-5 text-purple-400" /> Weakness Analysis</CardTitle>
-              <CardDescription>AI tracks your performance across reviews to identify persistent weak spots.</CardDescription>
+              <CardDescription>AI identifies your weakest areas across all IA criteria and suggests targeted improvements.</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              {[
-                { area: "Evaluation", score: 4, max: 6, status: "weak", detail: "Consistently scores 4/6 across 3 reviews. Only listing 3-4 limitations instead of 5-6. Improvements too generic." },
-                { area: "Exploration", score: 5, max: 6, status: "moderate", detail: "Methodology is strong but missing justification for why specific instruments were chosen over alternatives." },
-                { area: "Analysis", score: 5, max: 6, status: "moderate", detail: "Graphs are good but uncertainty propagation for derived quantities needs more explicit calculation." },
-                { area: "Communication", score: 4, max: 4, status: "strong", detail: "Well-structured, proper terminology, consistent formatting." },
-                { area: "Personal Engagement", score: 2, max: 2, status: "strong", detail: "Clear personal significance demonstrated." },
-              ].map(w => (
-                <div key={w.area} className="flex items-start gap-3 p-3 rounded-lg bg-zinc-900 border border-zinc-800">
-                  <Badge variant="outline" className={`text-xs shrink-0 ${w.status === "weak" ? "text-red-400 border-red-500/30" : w.status === "moderate" ? "text-amber-400 border-amber-500/30" : "text-emerald-400 border-emerald-500/30"}`}>
-                    {w.score}/{w.max}
-                  </Badge>
-                  <div>
-                    <p className="text-sm font-medium">{w.area}</p>
-                    <p className="text-xs text-zinc-400 mt-0.5">{w.detail}</p>
-                  </div>
-                </div>
-              ))}
-
-              <div className="mt-6 p-4 rounded-lg bg-emerald-500/5 border border-emerald-500/30">
-                <p className="text-sm font-semibold text-emerald-400 mb-2">AI Recommendation</p>
-                <p className="text-sm text-zinc-300">
-                  Your priority should be Evaluation. Spend 2 days studying the 7-point exemplar Evaluations in the library.
-                  Use the 4-dimension method (instrument, environment, assumptions, procedure) to generate at least 6 limitations.
-                  For each, name a specific instrument-based improvement.
-                </p>
+            <CardContent>
+              <div className="grid sm:grid-cols-5 gap-3">
+                {[
+                  { label: "Personal Engagement", score: "1/2", color: "red" },
+                  { label: "Exploration", score: "4/6", color: "amber" },
+                  { label: "Analysis", score: "5/6", color: "emerald" },
+                  { label: "Evaluation", score: "3/6", color: "red" },
+                  { label: "Communication", score: "3/4", color: "amber" },
+                ].map(c => (
+                  <Card key={c.label} className="border-zinc-800 bg-zinc-950 text-center p-4">
+                    <p className="text-xs text-zinc-400 mb-1">{c.label}</p>
+                    <p className={`text-lg font-bold ${
+                      c.color === "red" ? "text-red-400" : c.color === "amber" ? "text-amber-400" : "text-emerald-400"
+                    }`}>{c.score}</p>
+                    <p className="text-[10px] text-zinc-500 mt-1">Demo data</p>
+                  </Card>
+                ))}
               </div>
+              <p className="text-xs text-zinc-500 mt-4 text-center">This is demo data. Run Devil Review to get real analysis.</p>
             </CardContent>
           </Card>
         </TabsContent>
